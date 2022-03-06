@@ -1,10 +1,25 @@
 $(document).ready(function () {
 
     // Set current date at top of page
-    let currentTime = moment().format("dddd [-] LL");
-    $("#currentDay").text(currentTime);
+    let currentDate = moment().format("dddd [-] LL");
+    $("#currentDay").text(currentDate);
 
     loadTasks();
+
+    // Get current hour in military time from Moment
+    let currentTime = moment().format("H");
+
+    // Set color/class of text area based on what time it is
+    for (i = 0; i <= 23; i++) {
+        currentItem = i;
+        if (currentTime == i) {
+            $('#' + currentItem).addClass("present");
+        } else if (currentTime > i) {
+            $('#' + currentItem).addClass("past");
+        } else if (currentTime < i) {
+            $('#' + currentItem).addClass("future");
+        }
+    }
 
     // Function for when a save button is clicked, save text data to localStorage
     $(".saveBtn").click(function (){
