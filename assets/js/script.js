@@ -1,7 +1,10 @@
 $(document).ready(function () {
 
+    // Set current date at top of page
     let currentTime = moment().format("dddd [-] LL");
     $("#currentDay").text(currentTime);
+
+    loadTasks();
 
     // Function for when a save button is clicked, save text data to localStorage
     $(".saveBtn").click(function (){
@@ -13,7 +16,7 @@ $(document).ready(function () {
             text: taskText
         }
 
-        temp = JSON.parse(localStorage.getItem('tasks'));
+        var temp = JSON.parse(localStorage.getItem('tasks'));
         if (temp === null) {
             localStorage.setItem('tasks', JSON.stringify([{ time: taskTime, text: taskText}]));
         } else {
@@ -21,5 +24,20 @@ $(document).ready(function () {
             localStorage.setItem('tasks', JSON.stringify(temp));
         }
     });
+
+
+    // Function to load tasks from localstorage when the page loads
+    function loadTasks() {
+        savedTasks = JSON.parse(localStorage.getItem('tasks'));
+        if (savedTasks !== null) {
+            for (i = 0; i < savedTasks.length; i++) {
+                var loaded = savedTasks[i];
+                console.log(loaded);
+                if (loaded !== null) {
+                    $('#' + loaded.time).val(loaded.text);
+                }
+            }
+        }
+    }
 
 });
